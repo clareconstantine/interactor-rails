@@ -17,6 +17,7 @@ module Interactor
           --skip-puma \
           --skip-action-cable \
           --skip-sprockets \
+          --skip-asset-pipeline 
           --skip-spring \
           --skip-listen \
           --skip-coffee \
@@ -54,10 +55,10 @@ class PlaceOrder
 end
 EOF
 
-          path = 'spec/interactors/place_order_spec.rb'
+          path = "spec/interactors/place_order_spec.rb"
           expect(path).to be_an_existing_file
           expect(path).to have_file_content(<<-EOF)
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe PlaceOrder, type: :interactor do
   describe '.call' do
@@ -71,7 +72,9 @@ EOF
           run_command_and_stop "bundle exec rails generate interactor"
 
           expect("app/interactors/place_order.rb").not_to be_an_existing_file
-          expect(last_command_started.stdout).to include("rails generate interactor NAME")
+          expect(last_command_started.stdout).to include(
+            "rails generate interactor NAME"
+          )
         end
 
         it "handles namespacing" do
@@ -92,7 +95,7 @@ EOF
           path = "spec/interactors/invoice/place_order_spec.rb"
           expect(path).to be_an_existing_file
           expect(path).to have_file_content(<<-EOF)
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe Invoice::PlaceOrder, type: :interactor do
   describe '.call' do
@@ -122,7 +125,7 @@ EOF
           path = "spec/interactors/place_order_spec.rb"
           expect(path).to be_an_existing_file
           expect(path).to have_file_content(<<-EOF)
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe PlaceOrder, type: :interactor do
   describe '.call' do
@@ -153,7 +156,9 @@ EOF
           run_command_and_stop "bundle exec rails generate interactor:organizer"
 
           expect("app/interactors/place_order.rb").not_to be_an_existing_file
-          expect(last_command_started.stdout).to include("rails generate interactor:organizer NAME")
+          expect(last_command_started.stdout).to include(
+            "rails generate interactor:organizer NAME"
+          )
         end
 
         it "handles namespacing" do
@@ -172,7 +177,7 @@ EOF
           path = "spec/interactors/invoice/place_order_spec.rb"
           expect(path).to be_an_existing_file
           expect(path).to have_file_content(<<-EOF)
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe Invoice::PlaceOrder, type: :interactor do
   describe '.call' do
